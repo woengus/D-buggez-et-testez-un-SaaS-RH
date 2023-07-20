@@ -20,7 +20,7 @@ const row = (bill) => {
 };
 
 const rows = (data) => {
-  //return (data && data.length) ? data.map(bill => row(bill)).join("") : "" changement du code ici pour le tri
+  //return (data && data.length) ? data.map(bill => row(bill)).join("") : "" changement du code pour le tri [Bug report] - Bills
   return data && data.length
     ? data
         .sort((a, b) => new Date(b.date) - new Date(a.date))

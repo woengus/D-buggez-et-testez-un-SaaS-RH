@@ -41,7 +41,7 @@ export default class {
         .bills()
         .list()
         .then((snapshot) => {
-          snapshot.sort((a, b) => new Date(b.date) - new Date(a.date));
+          snapshot.sort((a, b) => new Date(b.date) - new Date(a.date)); //correction bug de tri [Bug report] - Bills
           const bills = snapshot.map((doc) => {
             try {
               return {

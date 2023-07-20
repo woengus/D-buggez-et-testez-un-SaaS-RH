@@ -38,7 +38,7 @@ export default class NewBill {
     formData.append("file", file);
     formData.append("email", email);
 
-    //code ajouté pour vérifier que le fichier est bien une image
+    //code ajouté pour vérifier que le fichier est bien une image, [Bug Hunt] - Bills
     const fileType = file["type"];
     const validImageTypes = ["image/jpg", "image/jpeg", "image/png"];
     const spanError = document.querySelector(".span--error");
