@@ -12,7 +12,7 @@ export default class NewBill {
     formNewBill.addEventListener("submit", this.handleSubmit);
     const file = this.document.querySelector(`input[data-testid="file"]`);
     file.addEventListener("change", this.handleChangeFile);
-    //span crée pour le message d'erreur si on upload un fichier qui n'est pas une image
+    //span créé pour le message d'erreur si on upload un fichier qui n'est pas une image
     const spanError = document.createElement("span");
     spanError.style.display = "none";
     spanError.classList.add("span--error");

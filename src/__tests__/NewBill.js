@@ -13,51 +13,14 @@ import userEvent from "@testing-library/user-event";
 import router from "../app/Router";
 import { localStorageMock } from "../__mocks__/localStorage.js";
 
+/**Suite de tests pour soumettre un formulaire sur la page NewBill :
+
+La suite de tests vérifie si la fonction de soumission est appelée correctement et si la page Bills est rendue après avoir soumis le formulaire avec des données complètes.
+Elle configure un utilisateur fictif en tant qu'employé, crée une instance de NewBill, et simule le remplissage du formulaire avec des données valides.
+Ensuite, elle déclenche la soumission du formulaire et vérifie si la fonction handleSubmit est appelée et si la page Bills est affichée. */
+
 describe("Given I am connected as an employee", () => {
   describe("When I am on NewBill Page", () => {
-    // test("Then  the user change the file, if the file is not an image, we got an error", () => {
-    //   const html = NewBillUI();
-    //   document.body.innerHTML = html;
-
-    //   const onNavigate = (pathname) => {
-    //     document.body.innerHTML = ROUTES({
-    //       pathname,
-    //     });
-    //   };
-
-    //   Object.defineProperty(window, "localStorage", {
-    //     value: localStorageMock,
-    //   });
-    //   window.localStorage.setItem(
-    //     "user",
-    //     JSON.stringify({
-    //       type: "Employee",
-    //     })
-    //   );
-
-    //   const file = screen.getByTestId("file");
-
-    //   const billContent = new NewBill({
-    //     document,
-    //     onNavigate,
-    //     store: null,
-    //     localStorage: localStorageMock,
-    //   });
-
-    //   const handleChangeFile = jest.fn((e) => {
-    //     billContent.handleChangeFile(e);
-    //   });
-
-    //   file.addEventListener("change", handleChangeFile);
-    //   fireEvent.change(file, {
-    //     target: {
-    //       files: [new File(["test"], "test.pdf", { type: "applcation/pdf" })],
-    //     },
-    //   });
-
-    //   expect(file.dataset.error).toEqual("true");
-    // });
-
     describe("When I click on Submit button with a complete form", () => {
       test("Then It should call the submit function and renders Bills page", async () => {
         window.localStorage.setItem(
@@ -66,10 +29,8 @@ describe("Given I am connected as an employee", () => {
             type: "Employee",
           })
         );
-
         const html = NewBillUI();
         document.body.innerHTML = html;
-
         const onNavigate = (pathname) => {
           document.body.innerHTML = ROUTES({ pathname, data: bills });
         };
@@ -79,7 +40,6 @@ describe("Given I am connected as an employee", () => {
           store: mockStore,
           localStorage: localStorage,
         });
-
         const fileTest = new File(["facture"], "trajet.png", {
           type: "image/png",
         });
@@ -95,15 +55,12 @@ describe("Given I am connected as an employee", () => {
         screen.getByTestId("amount").value = "200";
         screen.getByTestId("vat").value = "2";
         screen.getByTestId("pct").value = "20";
-        screen.getByTestId("commentary").value = "allé reotur";
-
+        screen.getByTestId("commentary").value = "aller retour";
         const handleSubmit = jest.spyOn(currentNewBill, "handleSubmit");
         const form = screen.getByTestId("form-new-bill");
         form.addEventListener("submit", handleSubmit);
         fireEvent.submit(form);
-
         expect(handleSubmit).toHaveBeenCalled();
-
         await waitFor(() => screen.getByText("Mes notes de frais"));
         const billsPage = screen.getByText("Mes notes de frais");
         expect(billsPage).toBeTruthy();
@@ -112,7 +69,12 @@ describe("Given I am connected as an employee", () => {
   });
 });
 
-// test d'intégration POST
+/**Suite de tests pour les tests d'intégration avec des requêtes API POST :
+
+La suite de tests vérifie la requête POST pour créer une nouvelle note de frais dans l'application.
+Elle vérifie si l'appel API est effectué correctement et si le type de note de frais retourné correspond à la valeur attendue ("Hôtel et logement").
+De plus, elle comprend deux cas de test pour la gestion des erreurs lorsque l'API retourne les codes d'état 404 ou 500. Elle vérifie si les messages d'erreur sont correctement affichés sur la page Bills. */
+
 describe("Given I am a user connected as Employee", () => {
   describe("When I navigate to newBill", () => {
     describe("When I POST a new bill", () => {
@@ -124,7 +86,7 @@ describe("Given I am a user connected as Employee", () => {
         expect(bill.type).toBe("Hôtel et logement");
       });
     });
-
+    //test erreur 404 et 500
     describe("When an error occurs on API", () => {
       beforeEach(() => {
         jest.spyOn(mockStore, "bills");
